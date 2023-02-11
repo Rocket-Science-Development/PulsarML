@@ -8,6 +8,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+pandas = "^1.5.3"
+pydantic = "^1.10.4"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -20,6 +22,42 @@ flake8-pyproject = "^1.2.2"
 pylint = "^2.16.1"
 mypy = "^1.0.0"
 bandit = "^1.7.4"
+
+[tool.poetry.extras]
+influxdb = ["influxdb-client[ciso,async,extras]"]
+
+[tool.black]
+line-length = 130
+target-version = ['py36', 'py37', 'py38', 'py39']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+
+[tool.flake8]
+ignore = ['E231', 'E241']
+per-file-ignores = [
+    '__init__.py:F401',
+]
+max-line-length = 130
+count = true
+
+[tool.bandit]
+targets = ["data_collection","metrics"]
 
 [build-system]
 requires = ["poetry-core"]
